@@ -2,9 +2,10 @@ const User = require("../model/usermodel");
 const express = require("express")
 const route = express.Router();
 var jwt = require('jsonwebtoken');
+const googleauthentication = require("../authenticate/googleauthenticate")
 
 const Token = (user) => jwt.sign({ user }, 'shhhhh');
-route.post("/signup", async (req, res) => {
+route.post("/signup", googleauthentication, async (req, res) => {
 
     try {
 
