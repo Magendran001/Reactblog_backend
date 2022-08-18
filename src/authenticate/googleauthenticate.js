@@ -17,13 +17,14 @@ async function googleauthentication(req, res, next) {
 
         }
         else {
+            let lastname = req.body.loginobj.family_name ? req.body.loginobj.family_name : req.body.loginobj?.given_name;
 
             req.body = {
 
                 email: req.body.loginobj?.email,
                 password: Math.random(20000, 30000),
                 firstname: req.body.loginobj?.given_name,
-                lastname: req.body.loginobj?.family_name,
+                lastname: lastname,
             }
             next()
         }
