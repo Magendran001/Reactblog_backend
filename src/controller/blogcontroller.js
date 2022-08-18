@@ -40,8 +40,9 @@ router.post("", body('title').isLength({ min: 1 }), body('desc').isLength({ min:
 
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
-          }
+            console.log(errors)
+            return res.status(400).json({ message: errors });
+        }
 
 
         req.body.user_id = req.user._id;
