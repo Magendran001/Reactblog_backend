@@ -2,7 +2,8 @@ const { default: mongoose } = require("mongoose");
 const Blog = require("../model/blogmodel");
 const express = require("express");
 const authenticate = require("../authenticate/authenticate.js");
-const User = require("../model/usermodel")
+const User = require("../model/usermodel");
+const { body, validationResult } = require('express-validator');
 
 const router = express.Router();
 
@@ -34,10 +35,13 @@ router.get("/:_id", authenticate, async (req, res, next) => {
     }
 })
 
-router.post("", authenticate, async (req, res, next) => {
+router.post("", body('title').isLength({ min: 1 }), body('desc').isLength({ min: 1 }), body('image').isLength({ min: 1 }), authenticate, async (req, res, next) => {
     try {
 
-
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+          }
 
 
         req.body.user_id = req.user._id;
